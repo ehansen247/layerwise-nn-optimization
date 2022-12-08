@@ -2,10 +2,13 @@ import config
 import numpy as np
 import torch
 import os
+from torchvision.datasets import CIFAR10
+from torch.utils.data import DataLoader
+from torchvision import transforms
 
 def get_dataset(train=True, invariant=False):
     """ Load and convert dataset into inputs and targets """
-    config = config.get_model_configuration()
+    model_config = config.get_model_configuration()
     if invariant:
         T = transforms.Compose([
             transforms.RandomChoice([transforms.RandomHorizontalFlip(),
@@ -17,7 +20,7 @@ def get_dataset(train=True, invariant=False):
         T = transforms.ToTensor()
     dataset = CIFAR10(os.getcwd(), train=train, download=True, transform=T)
     trainloader = torch.utils.data.DataLoader(
-        dataset, batch_size=config.get("batch_size"), shuffle=True, num_workers=1)
+        dataset, batch_size=model_config.get("batch_size"), shuffle=True, num_workers=1)
 
     return trainloader
 

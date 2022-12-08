@@ -1,8 +1,16 @@
+import torch
+from torch import nn
+
 def get_global_configuration():
     """ Retrieve configuration of the training process. """
 
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print(device)
+
     global_config = {
-      "num_layers_to_add": 5,
+        "num_layers_to_add": 8,
+        "device": device,
+        'invariant': False
     }
 
     return global_config
@@ -11,15 +19,15 @@ def get_model_configuration():
     """ Retrieve configuration for the model. """
 
     model_config = {
-      "width": 32,
-      "height": 32,
-      "channels": 3,
-      "num_classes": 10,
-      "batch_size": 250,
-      "loss_function": nn.CrossEntropyLoss,
-      "optimizer": torch.optim.Adam,
-      "num_epochs": 3,
-      "hidden_layer_dim": 256,
+        "width": 32,
+        "height": 32,
+        "channels": 3,
+        "num_classes": 10,
+        "batch_size": 250,
+        "loss_function": nn.CrossEntropyLoss,
+        "optimizer": torch.optim.Adam,
+        "num_epochs": 11,
+        "hidden_layer_dim": 256,
     }
 
     return model_config

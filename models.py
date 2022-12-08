@@ -24,9 +24,9 @@ class LayerConfigurableNN(nn.Module):
 
         # Retrieve model configuration
         self.config = config.get_model_configuration()
-        self.width, self.height, self.channels = config.get(
-            "width"), config.get("height"), config.get("channels")
-        self.num_classes = config.get("num_classes")
+        self.width, self.height, self.channels = self.config.get(
+            "width"), self.config.get("height"), self.config.get("channels")
+        self.num_classes = self.config.get("num_classes")
 
         #
         self.input_block = self.get_input_layers()  # returns nn.Module
@@ -42,16 +42,24 @@ class LayerConfigurableNN(nn.Module):
     def add_hidden_block(self):
         raise NotImplementedError
 
+    def get_name(self):
+        raise NotImplementedError
+
     def forward(self, x):
+        # print(x.shape)
         x_inp = self.input_block(x)
+        # print(x_inp.shape)
 
         x_hidden = []
         x_next = x_inp
         for block in self.hidden_blocks:
             x_next = block(x_next)
+            # print(x_next.shape)
             x_hidden.append(x_next)
 
+        # print(sum(x_hidden).shape)
         x_output = self.output_block(x_next + x_inp + sum(x_hidden))
+        # print(x_output.shape)
 
         return x_output
 
@@ -61,39 +69,42 @@ class LayerConfigurableNN(nn.Module):
     def num_trainable_weights(self):
         return sum(p.numel() for p in self.parameters() if p.requires_grad)
 
-    def find_layer(self, layer)
-        for layer in layers:
-            if layer == 'input':
-                return self.input_block
-            elif layer == 'output':
-                return self.output_block
-            else:
-                assert(layer >= 0 and layer < len(self.hidden_blocks))
-                return self.hidden_blocks[layer]
+    # def find_layer(self, layer):
+    #     if layer == 'input':
+    #         return self.input_block
+    #     elif layer == 'output':
+    #         return self.output_block
+    #     else:
+    #         assert(layer >= 0 and layer < len(self.hidden_blocks))
+    #         return self.hidden_blocks[layer]
 
-    def freeze_layer(self, layer):
+    def freeze_layer(self, layer: nn.Module):
         for param in layer.parameters():
             param.requires_grad = False
 
-    def activate_layer(self, layer):
+    def activate_layer(self, layer: nn.Module):
         for param in layer.parameters():
             param.requires_grad = True
 
-    def freeze_layers(layers, status):
+    def freeze_layers(self, layers):
         for layer in layers:
-            self.freeze_layer(self.find_layer(layer))
+            self.freeze_layer(layer)
 
     def activate_layers(self, layers):
         for layer in layers:
-            self.activate_layer(self.find_layer(layer))
+            self.activate_layer(layer)
 
 
 class LayerwiseMLPBlock(nn.Module):
     def __init__(self, hidden_layer_dim=256):
-      self.layers = nn.Sequential(
-          ("block0", nn.Linear(self.hidden_layer_dim, self.hidden_layer_dim)),
-          ("block1": nn.ReLU())
-      )
+
+        super().__init__()
+        self.hidden_layer_dim = hidden_layer_dim
+
+        self.layers = nn.Sequential(OrderedDict([
+            ("block0", nn.Linear(self.hidden_layer_dim, self.hidden_layer_dim)),
+            ("block1", nn.ReLU())
+        ]))
 
     def forward(self, x):
         return self.layers(x)
@@ -105,66 +116,84 @@ class LayerwiseConfigurableMLP(LayerConfigurableNN):
         super().__init__()
 
     def get_input_layers(self):
-        return nn.Sequential([
+        return nn.Sequential(OrderedDict([
             ("input0", nn.Flatten()),
-            ("input0", nn.Linear(self.width * self.height * self.channels,
-              self.hidden_layer_dim)),
-            ("input1"), nn.ReLU())
-        ])
+            ("input1", nn.Linear(self.width * self.height * self.channels,
+                                 self.hidden_layer_dim)),
+            ("input2", nn.ReLU())
+        ]))
 
     def get_output_layers(self):
-        return nn.Sequential([
+        return nn.Sequential(OrderedDict([
             ("input0", nn.Linear(self.hidden_layer_dim, self.num_classes))
-        ])
+        ]))
 
     def add_hidden_block(self):
         self.hidden_blocks.append(
-          LayerwiseMLPBlock(hidden_layer_dim=self.hidden_layer_dim)
+            LayerwiseMLPBlock(hidden_layer_dim=self.hidden_layer_dim)
         )
+
+    def get_name(self):
+        return "MLP"
 
 
 class LayerwiseCNNBlock(nn.Module):
     def __init__(self, out_channels,
                  hidden_kernel_size):
+        super().__init__()
 
-    self.layers=nn.Sequential(
-        ("block0", nn.Conv2d(self.out_channels, self.out_channels, self.hidden_kernel_size)),
-        ("block1": nn.ReLU())
-    )
+        self.out_channels = out_channels
+        self.hidden_kernel_size = hidden_kernel_size
+
+        self.layers = nn.Sequential(OrderedDict([
+            ("block0", nn.Conv2d(self.out_channels, self.out_channels, self.hidden_kernel_size,
+                                 padding=1)),
+            ("block1", nn.ReLU())
+        ]))
 
     def forward(self, x):
         return self.layers(x)
 
 
 class LayerwiseConfigurableCNN(LayerConfigurableNN):
-    def __init__(self, out_channels = 6, init_kernel_size = 8,
-                 self.hidden_kernel_size = 4):
-        self.out_channels=out_channels
-        self.init_kernel_size=init_kernel_size
-        self.hidden_kernel_size=hidden_kernel_size
+    def __init__(self, out_channels=6, init_kernel_size=5,
+                 hidden_kernel_size=3):
+        self.out_channels = out_channels
+        self.init_kernel_size = init_kernel_size
+        self.hidden_kernel_size = hidden_kernel_size
+        self.mp_layers = 1
+        self.padding = 1
 
         super().__init__()
 
     def get_output_layers(self):
-        flatten_out_shape=int(
-            self.out_channels * (self.width / (2 * self.mp_layers) - self.hidden_kernel_size)
-            * (self.height / (2 * self.mp_layers) - self.hidden_kernel_size)
+        eff_width = self.width + 2 * self.padding
+        eff_height = self.width + 2 * self.padding
+
+        flatten_out_shape = int(
+            self.out_channels *
+            ((eff_width - self.init_kernel_size + 1) / (2 * self.mp_layers)) *
+            ((eff_height - self.init_kernel_size + 1) / (2 * self.mp_layers))
         )
 
-        return nn.Sequential([
-            ("output0", nn.Flatten(),
-            ("output1", nn.Linear(self.flatten_out_shape, self.num_classes)
-        ])
+        return nn.Sequential(OrderedDict([
+            ("output0", nn.Flatten()),
+            ("output1", nn.Linear(flatten_out_shape, self.num_classes))
+        ]))
 
     def get_input_layers(self):
-        return nn.Sequential([
-          ("input0", nn.Conv2d(self.channels, self.out_channels, self.init_kernel_size)),
-          ("input1", nn.MaxPool2d(2)),
-          ("input2", nn.ReLU())
-        ])
+        return nn.Sequential(OrderedDict([
+            ("input0", nn.Conv2d(self.channels, self.out_channels, self.init_kernel_size,
+                                 padding=self.padding)),
+            ("input1", nn.MaxPool2d(2)),
+            ("input2", nn.ReLU())
+        ]))
 
     def add_hidden_block(self):
         self.hidden_blocks.append(
-          LayerwiseCNNBlock(out_channels=self.out_channels,
-                            hidden_kernel_size=self.hidden_kernel_size)
+            LayerwiseCNNBlock(out_channels=self.out_channels,
+                              hidden_kernel_size=self.hidden_kernel_size)
         )
+
+    def get_name(self):
+        return "CNN"
