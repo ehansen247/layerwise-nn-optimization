@@ -1,0 +1,6 @@
+data
+nnlr
+cifar-10-batches-py
+.ipynb_checkpoints
+PytorchTutorial.ipynb
+.DS_Store
