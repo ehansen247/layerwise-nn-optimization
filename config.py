@@ -25,8 +25,11 @@ def get_model_configuration():
         "num_classes": 10,
         "batch_size": 250,
         "loss_function": nn.CrossEntropyLoss,
-        "optimizer": torch.optim.Adam,
+        "optimizer": torch.optim.AdamW,
+        "weight_decay": 0.01,
+        "learning_rate": 0.001,
         "num_epochs": 11,
+        "batch_norm": False,
         "hidden_layer_dim": 256,
     }
 
