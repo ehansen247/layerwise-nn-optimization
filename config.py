@@ -35,4 +35,17 @@ def get_model_configuration():
         "hidden_layer_dim": 1024,
     }
 
+
     return model_config
+
+
+# Start Learning Rate at 0.05, dropping it down choose three intervals and drop it twice
+# SGD with learning rate scheduling
+
+# Show how performance changes with one layer, next layer, next layer, etc.
+
+# Report that observation of epochs vs. rounds in training
+
+# Choose different sizes
+# 512 for CIFAR-10, MNIST - 256
+# Try 1024 - 
