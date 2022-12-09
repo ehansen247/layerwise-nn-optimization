@@ -1,0 +1,21 @@
+,type,epoch,top1,top5,loss,time,layer,layer_params,optimizer,hidden_layer_dim,batch_size,batch_norm,weight_decay,learning_rate,invariant,model
+0,train,0,0.42964,0.8955,362.3308856487274,4.9,0,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+1,test,0,0.4287,0.8929,0.006494750452041626,,0,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+2,train,1,,,309.02865254879,4.9,0,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+3,test,1,,,,,0,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+4,train,2,,,287.4857921600342,4.8,0,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+5,test,2,,,,,0,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+6,train,3,,,276.57524502277374,4.9,0,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+7,test,3,,,,,0,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+8,train,4,0.54524,0.93634,270.4160670042038,4.9,0,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+9,test,4,0.5257,0.9323,0.005427657091617584,,0,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+0,train,0,0.52222,0.92862,292.4267326593399,4.8,1,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+1,test,0,0.5064,0.928,0.005639887928962708,,1,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+2,train,1,,,278.64747524261475,4.8,1,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+3,test,1,,,,,1,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+4,train,2,,,272.01407527923584,4.9,1,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+5,test,2,,,,,1,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+6,train,3,,,268.06771290302277,4.8,1,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+7,test,3,,,,,1,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+8,train,4,0.5448,0.93672,265.51052033901215,4.9,1,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN
+9,test,4,0.5188,0.9329,0.005438360917568207,,1,13966,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN

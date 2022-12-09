@@ -1,0 +1,21 @@
+,type,epoch,top1,top5,loss,time,layer,layer_params,optimizer,hidden_layer_dim,batch_size,batch_norm,weight_decay,learning_rate,invariant,model
+0,train,0,0.37364,0.85664,383.57585287094116,4.9,0,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+1,test,0,0.3715,0.8529,0.00714514012336731,,0,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+2,train,1,,,344.5577058792114,5.0,0,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+3,test,1,,,,,0,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+4,train,2,,,331.0638003349304,5.2,0,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+5,test,2,,,,,0,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+6,train,3,,,319.8125627040863,5.3,0,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+7,test,3,,,,,0,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+8,train,4,0.42994,0.90184,312.9428542852402,4.9,0,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+9,test,4,0.4126,0.8938,0.006487773203849793,,0,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+0,train,0,0.46852,0.90786,316.6321680545807,4.9,1,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+1,test,0,0.4549,0.9039,0.006166006481647492,,1,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+2,train,1,,,303.6203842163086,4.8,1,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+3,test,1,,,,,1,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+4,train,2,,,298.4346133470535,4.9,1,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+5,test,2,,,,,1,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+6,train,3,,,294.43598759174347,4.8,1,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+7,test,3,,,,,1,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+8,train,4,0.4932,0.92178,289.3034815788269,4.9,1,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP
+9,test,4,0.4709,0.9125,0.005955329382419586,,1,789258,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,MLP

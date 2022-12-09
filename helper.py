@@ -5,6 +5,21 @@ import os
 from torchvision.datasets import CIFAR10
 from torch.utils.data import DataLoader
 from torchvision import transforms
+import datetime
+import pandas as pd
+
+def get_datetime_str(dt):
+    return str(dt.strftime("%Y-%m-%d-%H-%M"))
+
+def get_results_files(results_dir, st_file, end_file):
+    dfs = []
+    files = os.listdir(results_dir)
+    for file in files:
+        filename = file.split('.')[0] 
+        if filename >= st_file and filename <= end_file:
+            dfs.append(pd.read_csv(results_dir + file))
+    
+    return pd.concat(dfs)
 
 def get_dataset(train=True, invariant=False):
     """ Load and convert dataset into inputs and targets """

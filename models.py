@@ -5,7 +5,6 @@ from torchvision.datasets import CIFAR10
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from collections import OrderedDict
-from accelerate import Accelerator
 
 import time
 import pandas as pd
@@ -39,7 +38,7 @@ class LayerConfigurableNN(nn.Module):
     def get_output_layers(self):
         raise NotImplementedError
 
-    def add_hidden_block(self):
+    def add_hidden_block(self, device):
         raise NotImplementedError
 
     def get_name(self):
@@ -64,10 +63,22 @@ class LayerConfigurableNN(nn.Module):
         return x_output
 
     def num_weights(self):
-        return sum(p.numel() for p in self.parameters())
+        sm = 0 
+        sm += sum(p.numel() for p in self.input_block.parameters())
+        sm += sum(p.numel() for p in self.output_block.parameters())
+        for block in self.hidden_blocks:
+            sm += sum(p.numel() for p in block.parameters())
+            
+        return sm
 
     def num_trainable_weights(self):
-        return sum(p.numel() for p in self.parameters() if p.requires_grad)
+        sm = 0 
+        sm += sum(p.numel() for p in self.input_block.parameters() if p.requires_grad)
+        sm += sum(p.numel() for p in self.output_block.parameters() if p.requires_grad)
+        for block in self.hidden_blocks:
+            sm += sum(p.numel() for p in block.parameters() if p.requires_grad)
+            
+        return sm
 
     # def find_layer(self, layer):
     #     if layer == 'input':
@@ -128,10 +139,9 @@ class LayerwiseConfigurableMLP(LayerConfigurableNN):
             ("input0", nn.Linear(self.hidden_layer_dim, self.num_classes))
         ]))
 
-    def add_hidden_block(self):
-        self.hidden_blocks.append(
-            LayerwiseMLPBlock(hidden_layer_dim=self.hidden_layer_dim)
-        )
+    def add_hidden_block(self, device):
+        mlp_block = LayerwiseMLPBlock(hidden_layer_dim=self.hidden_layer_dim)
+        self.hidden_blocks.append(mlp_block.to(device))
 
     def get_name(self):
         return "MLP"
@@ -189,11 +199,10 @@ class LayerwiseConfigurableCNN(LayerConfigurableNN):
             ("input2", nn.ReLU())
         ]))
 
-    def add_hidden_block(self):
-        self.hidden_blocks.append(
-            LayerwiseCNNBlock(out_channels=self.out_channels,
-                              hidden_kernel_size=self.hidden_kernel_size)
-        )
+    def add_hidden_block(self, device):
+        cnn_block = LayerwiseCNNBlock(out_channels=self.out_channels,
+                                      hidden_kernel_size=self.hidden_kernel_size)
+        self.hidden_blocks.append(cnn_block.to(device))
 
     def get_name(self):
         return "CNN"

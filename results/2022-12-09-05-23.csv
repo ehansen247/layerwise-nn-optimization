@@ -1,0 +1,25 @@
+,type,epoch,top1,top5,loss,time,layer,layer_params,optimizer,hidden_layer_dim,batch_size,batch_norm,weight_decay,learning_rate,invariant,model,round,train_strategy,model_strategy
+0,train,0,0.52994,0.9347,0.005386797649860382,5.0,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+1,test,0,0.515,0.9278,0.005559947645664215,,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+2,train,1,0.5344,0.93566,0.005305940268039704,4.8,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+3,test,1,0.5146,0.9302,0.005490490710735321,,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+4,train,2,0.53378,0.93278,0.005333188991546631,4.8,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+5,test,2,0.5151,0.9282,0.0055161768436431885,,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+0,train,0,0.54538,0.93632,0.005214927186965942,4.9,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+1,test,0,0.5252,0.929,0.005418909370899201,,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+2,train,1,0.5474,0.9361,0.005209457638263702,4.9,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+3,test,1,0.5274,0.9272,0.005404401683807373,,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+4,train,2,0.5494,0.93896,0.0051912009429931644,4.9,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+5,test,2,0.5237,0.9329,0.005398290133476257,,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+0,train,0,0.54112,0.93914,0.005227245805263519,5.0,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+1,test,0,0.5212,0.9316,0.0054486769914627075,,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+2,train,1,0.55314,0.94158,0.005158786885738373,4.9,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+3,test,1,0.5301,0.9347,0.005381840693950653,,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+4,train,2,0.5485,0.93896,0.005169429330825806,5.0,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+5,test,2,0.5224,0.9287,0.005392692196369171,,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+0,train,0,0.53906,0.93794,0.005217842266559601,4.8,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+1,test,0,0.5194,0.9304,0.005449769222736359,,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+2,train,1,0.56346,0.9432,0.005043621385097503,5.4,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+3,test,1,0.5373,0.934,0.0052818426370620725,,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+4,train,2,0.54912,0.94066,0.005180505108833313,4.9,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop
+5,test,2,0.5254,0.9326,0.005438595676422119,,4,15286,<class 'torch.optim.adamw.AdamW'>,1024,250,False,0.01,0.001,False,CNN,1,backprop,CNN_backprop

@@ -8,7 +8,9 @@ def get_global_configuration():
     print(device)
 
     global_config = {
-        "num_layers_to_add": 8,
+        "config_batch": 0,
+        "num_layers_to_add": 4,
+        "rounds": 4, 
         "device": device,
         'invariant': False
     }
@@ -28,9 +30,9 @@ def get_model_configuration():
         "optimizer": torch.optim.AdamW,
         "weight_decay": 0.01,
         "learning_rate": 0.001,
-        "num_epochs": 11,
+        "num_epochs": 3,
         "batch_norm": False,
-        "hidden_layer_dim": 256,
+        "hidden_layer_dim": 1024,
     }
 
     return model_config
