@@ -2,11 +2,25 @@ import config
 import numpy as np
 import torch
 import os
-from torchvision.datasets import CIFAR10
+
 from torch.utils.data import DataLoader
 from torchvision import transforms
 import datetime
 import pandas as pd
+
+from scipy.stats import ortho_group
+
+def generate_simplex_etf(in_dim, out_dim, seed=520):
+    print(in_dim)
+    print(out_dim)
+
+    M = np.sqrt(out_dim / (out_dim - 1)) * np.identity(out_dim) - \
+        (1 / float(out_dim)) * np.ones((out_dim, out_dim))
+    U = ortho_group.rvs(in_dim, random_state=seed)[:, :out_dim]
+
+    ETF = np.matmul(U, M)
+
+    return torch.from_numpy(ETF.astype(np.float32))
 
 def get_datetime_str(dt):
     return str(dt.strftime("%Y-%m-%d-%H-%M"))
@@ -15,10 +29,10 @@ def get_results_files(results_dir, st_file, end_file):
     dfs = []
     files = os.listdir(results_dir)
     for file in files:
-        filename = file.split('.')[0] 
+        filename = file.split('.')[0]
         if filename >= st_file and filename <= end_file:
             dfs.append(pd.read_csv(results_dir + file))
-    
+
     return pd.concat(dfs)
 
 def get_dataset(train=True, invariant=False):
@@ -33,7 +47,9 @@ def get_dataset(train=True, invariant=False):
         ])
     else:
         T = transforms.ToTensor()
-    dataset = CIFAR10(os.getcwd(), train=train, download=True, transform=T)
+    ds_load_function = config.get_global_configuration()['dataset']
+
+    dataset = ds_load_function(os.getcwd(), train=train, download=True, transform=T)
     trainloader = torch.utils.data.DataLoader(
         dataset, batch_size=model_config.get("batch_size"), shuffle=True, num_workers=1)
 
