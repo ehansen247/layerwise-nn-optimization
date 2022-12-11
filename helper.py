@@ -11,16 +11,20 @@ import pandas as pd
 from scipy.stats import ortho_group
 
 def generate_simplex_etf(in_dim, out_dim, seed=520):
-    print(in_dim)
-    print(out_dim)
-
+    np.random.seed(seed)
+    
+    mat = np.random.uniform(-1, 1, size=(in_dim, out_dim))
+    q, _ = np.linalg.qr(mat)
+    
     M = np.sqrt(out_dim / (out_dim - 1)) * np.identity(out_dim) - \
         (1 / float(out_dim)) * np.ones((out_dim, out_dim))
-    U = ortho_group.rvs(in_dim, random_state=seed)[:, :out_dim]
-
-    ETF = np.matmul(U, M)
-
-    return torch.from_numpy(ETF.astype(np.float32))
+    
+    etf = np.matmul(q, M)
+    
+    tensor_etf = torch.from_numpy(etf.astype(np.float32))
+    assert(tensor_etf.requires_grad == False)
+    
+    return tensor_etf
 
 def get_datetime_str(dt):
     return str(dt.strftime("%Y-%m-%d-%H-%M"))

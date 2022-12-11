@@ -19,7 +19,7 @@ class LayerConfigurableNN(nn.Module):
     Layer-wise configurable NN
     '''
 
-    def __init__(self, hidden_layer_dim, etf=None):
+    def __init__(self, hidden_layer_dim, device, etf=None):
         super().__init__()
 
         # Retrieve model configuration
@@ -32,6 +32,11 @@ class LayerConfigurableNN(nn.Module):
         self.input_block = self.get_input_layers()  # returns nn.Module
         if etf == None:
             self.simplex_ETF = helper.generate_simplex_etf(hidden_layer_dim, self.num_classes)
+        else:
+            self.simplex_ETF = etf
+        self.simplex_ETF = self.simplex_ETF.to(device)
+        self.simplex_ETF.requires_grad = False # should already be False by default
+        
         self.hidden_blocks = []  # list of nn.Module
 
     def get_input_layers(self):
@@ -104,8 +109,8 @@ class LayerConfigurableNN(nn.Module):
             parameters.extend([p for p in block.parameters()])
 
         for p in parameters:
-            grad_norm = p.grad.detach().data.norm(2)
-            total_norm += grad_norm.item() ** 2
+            p_norm = p.detach().data.norm(2)
+            total_norm += p_norm.item() ** 2
         total_norm = total_norm ** 0.5
 
         return total_norm
@@ -151,10 +156,10 @@ class LayerwiseMLPBlock(nn.Module):
         return self.layers(x)
 
 class LayerwiseConfigurableMLP(LayerConfigurableNN):
-    def __init__(self):
+    def __init__(self, device):
         self.hidden_layer_dim = config.get_model_configuration().get('hidden_layer_dim')
 
-        super().__init__(self.hidden_layer_dim)
+        super().__init__(self.hidden_layer_dim, device)
 
     def get_input_layers(self):
         inp_layers = []
@@ -200,7 +205,7 @@ class LayerwiseCNNBlock(nn.Module):
 
 
 class LayerwiseConfigurableCNN(LayerConfigurableNN):
-    def __init__(self, out_channels=12, init_kernel_size=3,
+    def __init__(self, device, out_channels=64, init_kernel_size=3,
                  hidden_kernel_size=3, etf=None):
         self.out_channels = out_channels
         self.init_kernel_size = init_kernel_size
@@ -217,10 +222,10 @@ class LayerwiseConfigurableCNN(LayerConfigurableNN):
             ((eff_height - self.init_kernel_size + 1) / (2 * self.mp_layers))
         )
 
-        super().__init__(self.flatten_out_shape, etf)
+        super().__init__(self.flatten_out_shape, device, etf)
 
     def output_transform(self, x):
-        return torch.flatten(x)
+        return torch.flatten(x, start_dim=1)
 
     def get_input_layers(self):
         inp_layers = []
