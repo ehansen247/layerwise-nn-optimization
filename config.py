@@ -17,7 +17,7 @@ def get_global_configuration():
         "device": device,
         'invariant': False,
         'dataset': MNIST,
-        "condition": "exp1_hld128_rounds20_epochs5_MNIST"
+        "condition": "exp2_rounds5_epochs20_MNIST"
     }
 
     return global_config
