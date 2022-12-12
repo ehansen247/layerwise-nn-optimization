@@ -89,8 +89,7 @@ class LayerConfigurableNN(nn.Module):
 
     def gradient_norm(self):
         total_norm = 0
-        parameters = [p for p in self.input_block.parameters(
-        ) if p.grad is not None and p.requires_grad]
+        parameters = [p for p in self.input_block.parameters() if p.grad is not None and p.requires_grad]
         for block in self.hidden_blocks:
             parameters.extend([p for p in block.parameters()
                               if p.grad is not None and p.requires_grad])

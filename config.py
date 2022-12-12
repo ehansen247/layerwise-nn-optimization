@@ -13,7 +13,7 @@ def get_global_configuration():
     global_config = {
         "config_batch": 0,
         "num_layers": 3,
-        "rounds": 5,
+        "rounds": 20,
         "device": device,
         'invariant': False,
         'dataset': MNIST,
@@ -35,7 +35,7 @@ def get_model_configuration():
         "optimizer": torch.optim.AdamW,
         "weight_decay": 0.01,
         "learning_rate": 0.001,
-        "num_epochs": 3,
+        "num_epochs": 5,
         "batch_norm": True,
         "hidden_layer_dim": 128,
     }
