@@ -104,8 +104,8 @@ class LayerConfigurableNN(nn.Module):
             parameters.extend([p for p in block.parameters()])
 
         for p in parameters:
-            grad_norm = p.grad.detach().data.norm(2)
-            total_norm += grad_norm.item() ** 2
+            p_norm = p.detach().data.norm(2)
+            total_norm += p_norm.item() ** 2
         total_norm = total_norm ** 0.5
 
         return total_norm

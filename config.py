@@ -16,8 +16,8 @@ def get_global_configuration():
         "rounds": 5,
         "device": device,
         'invariant': False,
-        'dataset': CIFAR10,
-        "condition": "exp2_rounds5_epochs20_CIFAR10"
+        'dataset': MNIST,
+        "condition": "exp1_hld128_rounds20_epochs5_MNIST"
     }
 
     return global_config
@@ -26,18 +26,18 @@ def get_model_configuration():
     """ Retrieve configuration for the model. """
 
     model_config = {
-        "width": 32,
-        "height": 32,
-        "channels": 3,
+        "width": 28,
+        "height": 28,
+        "channels": 1,
         "num_classes": 10,
         "batch_size": 250,
         "loss_function": nn.CrossEntropyLoss,
         "optimizer": torch.optim.AdamW,
         "weight_decay": 0.01,
         "learning_rate": 0.001,
-        "num_epochs": 20,
+        "num_epochs": 3,
         "batch_norm": True,
-        "hidden_layer_dim": 512,
+        "hidden_layer_dim": 128,
     }
 
     return model_config
