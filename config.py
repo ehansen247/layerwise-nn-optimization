@@ -16,8 +16,8 @@ def get_global_configuration():
         "rounds": 20,
         "device": device,
         'invariant': False,
-        'dataset': MNIST,
-        "condition": "exp2_rounds5_epochs20_MNIST"
+        'dataset': CIFAR10,
+        "condition": "exp2_rounds5_epochs20_CIFAR10"
     }
 
     return global_config
@@ -26,9 +26,9 @@ def get_model_configuration():
     """ Retrieve configuration for the model. """
 
     model_config = {
-        "width": 28,
-        "height": 28,
-        "channels": 1,
+        "width": 32,
+        "height": 32,
+        "channels": 3,
         "num_classes": 10,
         "batch_size": 250,
         "loss_function": nn.CrossEntropyLoss,
